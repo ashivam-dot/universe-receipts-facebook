@@ -222,6 +222,9 @@ def publish(entry: dict, video: Path) -> dict:
 
 def post() -> None:
     library, posted = load(LIBRARY, {}), load(POSTED, {})
+    if not os.environ.get("FB_PAGE_TOKEN", "").strip():
+        log("FB_PAGE_TOKEN isn't set yet; skipping the post")
+        return
     if posted_today(posted) >= PER_DAY:
         log(f"already posted {PER_DAY} today")
         return
