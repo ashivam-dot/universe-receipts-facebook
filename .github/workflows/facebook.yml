@@ -1,0 +1,63 @@
+name: facebook
+
+on:
+  schedule:
+    - cron: "17 */4 * * *"   # store new Shorts while their hosted copy exists (it is freed 2 days after going live)
+    - cron: "30 16 * * *"    # post: 12:30 New York (EDT)
+    - cron: "30 23 * * *"    # post: 19:30 New York (EDT)
+  workflow_dispatch:
+    inputs:
+      post:
+        description: "Also post one Reel now"
+        type: boolean
+        default: false
+
+concurrency:
+  group: facebook
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the studio repository (read-only deploy key)
+        uses: actions/checkout@v4
+        with:
+          repository: ashivam-dot/universe-receipts
+          ssh-key: ${{ secrets.SOURCE_DEPLOY_KEY }}
+          path: src
+          sparse-checkout: content/episodes
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -q requests pyyaml
+
+      - name: Store new Shorts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 fbposter.py harvest
+
+      - name: Post a Reel
+        if: github.event.schedule == '30 16 * * *' || github.event.schedule == '30 23 * * *' || inputs.post
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+        run: python3 fbposter.py post
+
+      - name: Save state
+        if: always()
+        run: |
+          git config user.name "facebook-bot"
+          git config user.email "facebook-bot@users.noreply.github.com"
+          git add state
+          git diff --cached --quiet || git commit -q -m "facebook: state $(date -u +%FT%RZ)"
+          git push -q
