@@ -6,7 +6,7 @@
     "youtube_url": "https://www.youtube.com/shorts/6EY3IFTmAwc",
     "sent_at": "2026-10-02T00:03:36.616Z",
     "views": 103,
-    "stored": false
+    "stored": true
   },
   "ep004": {
     "id": "ep004",
@@ -15,7 +15,7 @@
     "youtube_url": "https://www.youtube.com/shorts/5DSyj0ecK6I",
     "sent_at": "2026-10-04T23:00:38.001Z",
     "views": 1054,
-    "stored": false
+    "stored": true
   },
   "ep008": {
     "id": "ep008",
@@ -24,7 +24,7 @@
     "youtube_url": "https://www.youtube.com/shorts/JRzJMC__eLA",
     "sent_at": "2026-10-01T00:01:06.093Z",
     "views": 866,
-    "stored": false
+    "stored": true
   },
   "ep009": {
     "id": "ep009",
@@ -33,7 +33,7 @@
     "youtube_url": "https://www.youtube.com/shorts/4iBQ4VaBHbc",
     "sent_at": "2026-10-02T23:01:11.199Z",
     "views": 249,
-    "stored": false
+    "stored": true
   },
   "ep013": {
     "id": "ep013",
@@ -42,7 +42,7 @@
     "youtube_url": "https://www.youtube.com/shorts/GY6M3iwczZY",
     "sent_at": "2026-10-03T23:00:32.235Z",
     "views": 979,
-    "stored": false
+    "stored": true
   },
   "ep017": {
     "id": "ep017",
@@ -69,7 +69,7 @@
     "youtube_url": "https://www.youtube.com/shorts/ZAYICInyvy0",
     "sent_at": "2026-10-03T01:30:10.770Z",
     "views": 955,
-    "stored": false
+    "stored": true
   },
   "ep028": {
     "id": "ep028",
@@ -78,7 +78,7 @@
     "youtube_url": "https://www.youtube.com/shorts/K2kX_90S1W0",
     "sent_at": "2026-10-04T01:30:10.379Z",
     "views": 1258,
-    "stored": false
+    "stored": true
   },
   "ep032": {
     "id": "ep032",
@@ -87,7 +87,7 @@
     "youtube_url": "https://www.youtube.com/shorts/Fz5pXMW6YmE",
     "sent_at": "2026-10-05T01:30:12.448Z",
     "views": 1032,
-    "stored": false
+    "stored": true
   },
   "ep033": {
     "id": "ep033",
@@ -114,7 +114,7 @@
     "youtube_url": "https://www.youtube.com/shorts/EO__BdWXShI",
     "sent_at": "2026-10-04T16:30:15.068Z",
     "views": 1022,
-    "stored": false
+    "stored": true
   },
   "ep061": {
     "id": "ep061",
