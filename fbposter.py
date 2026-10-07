@@ -108,9 +108,21 @@ def download(url: str, dest: Path) -> bool:
 
 
 def from_youtube(url: str, dest: Path) -> bool:
-    r = subprocess.run(["yt-dlp", "-q", "--no-warnings", "-f", "bv*[height<=1920][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b",
-                        "--merge-output-format", "mp4", "-o", str(dest), url], capture_output=True, text=True)
-    return r.returncode == 0 and dest.exists() and dest.stat().st_size > 100_000
+    raw = dest.with_suffix(".yt.mp4")
+    r = subprocess.run(["yt-dlp", "-q", "--no-warnings", "-f", "bv*[vcodec^=avc1]+ba[ext=m4a]/bv*[ext=mp4]+ba[ext=m4a]/b",
+                        "--merge-output-format", "mp4", "-o", str(raw), url], capture_output=True, text=True)
+    if r.returncode != 0 or not raw.exists():
+        return False
+    codec = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name",
+                            "-of", "csv=p=0", str(raw)], capture_output=True, text=True).stdout.strip()
+    # Facebook's Reels specs ask for H.264 video and AAC audio.
+    if codec == "h264":
+        raw.rename(dest)
+    else:
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-c:v", "libx264", "-preset", "slow", "-crf", "18",
+                        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(dest)], check=True)
+        raw.unlink()
+    return dest.exists() and dest.stat().st_size > 100_000
 
 
 def harvest(allow_youtube: bool = False) -> None:
